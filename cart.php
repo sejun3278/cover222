@@ -111,7 +111,7 @@
                         $c_total_price = number_format($total_price);
                         $c_total_cart_price = number_format($total_cart_price);
 
-                        echo "<div class='cart_total_price'> <h3 class='cart_total_price_$topic_id'> $c_total_price 원 </h3> </div>";
+                        echo "<div class='cart_total_price'> <h3 class='cart_h3 cart_total_price_$topic_id'> $c_total_price 원 </h3> </div>";
                         
                         if($select_length !== $num) {
                         echo "<hr />";
@@ -138,7 +138,7 @@
         <h4> 총 금액 </h4>
         <u class='cart_total_html'> </u> 원
         <br /> <br> <br />
-        <div> <b> 주문하기 </b> </div>
+        <div> <b> <a class='cart_order'> 주문하기 </a> </b> </div>
       </div>
     </div>
     </div>

@@ -15,8 +15,6 @@
     }
 
     $type = $_GET['files'];
-    print($type);
-    echo $type;
 
     foreach($_FILES as $file) {
         if(move_uploaded_file($file['tmp_name'], $dir.$file['name'])) {

@@ -56,6 +56,15 @@ select {
     margin-top: 40px;
 }
 
+#signup_none {
+    display: none;
+}
+
+.signup_user_grid {
+    display: grid;
+    grid-template-columns: 45% 50% 0%;
+}
+
 .signup_form_div .signup_input {
     width: 30%;
     padding: 5px;
@@ -83,10 +92,89 @@ select {
     margin-bottom: 20px;
 }
 
+.user_info_div {
+    /* margin-top: -30px; */
+    width: 40%;
+    font-size: 12px;
+}
+
+.user_picture_div {
+    margin-top: 30px;
+    line-height: 40px;
+}
+
+#user_profile_img {
+    width: 150px;
+    height: 150px;
+    margin-top: 20px;
+    border: solid 1px #ababab;
+    padding: 5px;
+    /* margin-left: 20%; */
+    cursor: pointer;
+}
+
+#user_info_title {
+    margin-top: 3%;
+    text-align: center;
+}
+
+.user_info_div > #user_profile_notice {
+    font-size: 0.3rem;
+}
+
+.user_info_div > .user_info_input_div {
+    font-size: 0.9rem;
+}
+
+.user_info_input_div {
+    display: grid;
+    grid-template-rows: 100% 30px;
+    margin-top: 20%;
+    line-height: 30px;
+}
+
+.user_phone_number_input {
+    margin-left: 5px;
+    width: 35px;
+    padding: 2px;
+    text-align: center;
+}
+
+#user_host_input {
+    width: 75%;
+    padding: 1%;
+}
+
+#user_profile_notice {
+    font-size: 12px;
+    /* text-align: center; */
+    margin-left: 2.5%;
+    margin-top: 20%;
+    color: #ababab;
+}
+
+.user_host_div {
+    margin-top: 30px;
+    line-height: 35px;
+    margin-left: -7%;
+}
+
+.user_host_div .host_input {
+    width: 30%;
+    padding: 3px;
+}
+
+#signup_div {
+    text-align: left;
+    margin-top: 5%;
+    margin-left: 12%;
+    font-size: 16px;
+    cursor: pointer;
+}
+
 .login_alert {
     margin-top: -32px;
     margin-left: 10px;
-
 }
 
 .login_fail_alert {
@@ -262,7 +350,8 @@ select {
 
 #write_tools,
 #like_list_tools_div,
-#cart_list_tools_div {
+#cart_list_tools_div,
+#order_list_tools_div {
     display: grid;
     grid-template-columns: 15% 70% 15%;
 }
@@ -557,7 +646,8 @@ select {
 }
 
 #like_list_title_div,
-#cart_title_div {
+#cart_title_div,
+#order_title_div {
     margin-top: 20px;
     text-align: center;
     margin-bottom: 20px;
@@ -705,7 +795,6 @@ select {
     border: solid 1px #ababab;
     margin: 5%;
     height: auto;
-    padding-right: 10px;
 }
 
 .cart_lists {
@@ -730,11 +819,6 @@ select {
     padding: 10px;
 }
 
-#cart_total_price {
-    text-align: right;
-    margin-right: 5%;
-}
-
 .cart_item_nums {
     /* position: absolute; */
     font-size: 11px;
@@ -750,7 +834,7 @@ select {
 
 .cart_checkbox {
     display: grid;
-    grid-template-columns: 3% 35% 55% 30%;
+    grid-template-columns: 3% 35% 53% 30%;
     margin: 10px;
     font-size: 14px;
 }
@@ -802,10 +886,18 @@ select {
     margin-top: -10px;
 }
 
+#cart_total_price {
+    text-align: right;
+    margin-right: 5%;
+}
+
 .cart_total_price {
-    /* position: absolute; */
     text-align: right;
     margin-top: -55px;
+}
+
+.cart_h3 {
+    margin-right: 3%;
 }
 
 .check_list, .all_choice {
@@ -819,7 +911,7 @@ select {
 
 #cart_total_price_top {
     position: absolute;
-    width: 130px;
+    width: 10%;
     border: solid 1px #ababab;
     height: 23%;
     padding: 10px;
@@ -846,4 +938,13 @@ select {
     position: absolute;
     right: 5%;
     margin-top: -40px;
+}
+
+.cart_order {
+    cursor: pointer;
+    color: black;
+}
+
+#order_tool div {
+    margin: 30px;
 }
