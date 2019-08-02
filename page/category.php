@@ -14,7 +14,7 @@
                 header('Content-Type: text/html; charset=utf-8');
 
                 $mysql = mysqli_connect('sejun.chpyfqbmwueu.ap-northeast-2.rds.amazonaws.com', 'sejun', 'q1w2e3r4t5', 'mall');
-                $result = mysqli_query($mysql, "SELECT * FROM user WHERE id = $id");
+                $result = mysqli_query($mysql, "SELECT * FROM user WHERE user_id = $id");
 
                 while($row = mysqli_fetch_array($result)) {
                   $type = $row['type'];

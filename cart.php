@@ -61,7 +61,6 @@
                     echo "<div> <a class='list_all_remove color_black point cart'> 선택 삭제 </a> </div>";
                 echo "</div>";
 
-                // echo "<img id='cart_background' src='./source/cart_background.png' />";
                 echo "<div class='cart_lists_div'>";
                 $num = 0;
                 $total_cart_price = 0;
@@ -77,6 +76,11 @@
                         $img = $row['file'];
                         $price = $row['price'];
                         $price_c = number_format($price);
+                        $seller = $row['seller_id'];
+
+                        $select = mysqli_query($mysql, "SELECT * FROM `user` where user_id = $seller ");
+                        $user_row = mysqli_fetch_array($select);
+                        $company = $user_row['company'];
 
                         $item_num = $rows['num'];
                         $num = $num + 1;
@@ -92,6 +96,7 @@
                         echo "<div> <a href='topic.php?id=$topic_id'> <img class='cart_img_width' src='./source/topic_files/$img'/> </a> </div>";
 
                         echo "<div>";
+                        echo "<div class='cart_company'> $company </div>";
                         echo "<div> <h4> $title </h4> </div>";
                         echo "<div class='cart_price_notice'> (1개 가) $price_c 원 </div>";
 

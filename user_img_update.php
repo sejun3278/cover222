@@ -34,17 +34,19 @@
             move_uploaded_file($file['tmp_name'], $dir.$file_name);
             echo "true";
             exit;
+
+        }
+        
+        if($boo === 'add') {
+            $dir = 'source/user_profile/';
+
+            if(!is_dir($dir)) {
+                mkdir($dir);
+            }
+
+            move_uploaded_file($file['tmp_name'], $dir.$file_name);
+            echo "true";
+            exit;
         }
     }
-
-    // foreach($_FILES as $file) {
-    //     if(move_uploaded_file($file['tmp_name'], $dir.$file[$user_id])) {
-    //         $files[] = $dir .$file['name'];
-
-    //     } else {
-    //         $error = true;
-    //     }
-    //     $data = ($error) ? array('error' => '업로드된 파일이 없습니다.') : array('files' => $files);
-    // }
-    // echo 'true';
 ?>

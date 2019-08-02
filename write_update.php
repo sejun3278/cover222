@@ -34,7 +34,7 @@
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 
   } else {
-    $result = mysqli_query($mysql, "INSERT INTO topic(user_id, title, contents, category, child, date, file, price) VALUES('$user_id', '$title', '$contents', '$category', '$child', '$date', '$fileName', '$price')");
+    $result = mysqli_query($mysql, "INSERT INTO topic(seller_id, title, contents, category, child, date, file, price) VALUES('$user_id', '$title', '$contents', '$category', '$child', '$date', '$fileName', '$price')");
 
     if($result === false){
         echo mysqli_error('error : ' + $mysql);

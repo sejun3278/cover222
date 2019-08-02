@@ -52,11 +52,13 @@ select {
 
 .signup_form_grid {
     display: grid;
-    grid-template-columns: 42% 50% 0%;
-    margin-top: 40px;
+    grid-template-columns: 25% 50%;
+    margin-top: 30px;
 }
 
-#signup_none {
+.signup_none_buyer,
+.signup_none_seller 
+{
     display: none;
 }
 
@@ -65,20 +67,27 @@ select {
     grid-template-columns: 45% 50% 0%;
 }
 
+.signup_form_div {
+    display: grid;
+    grid-template-columns: 42% 50% 0%;
+    margin-top: 50px;
+}
+
 .signup_form_div .signup_input {
-    width: 30%;
+    width: 230px;
     padding: 5px;
     margin-top: 10px;
     margin-bottom: 30px;
 }
 
 #signup_button_div {
-    cursor : pointer;
+    text-align: left;
     margin-left: 12%;
     margin-top: 60px;
 }
 
 #signup_button_div a {
+    cursor: pointer;
     color: black;
 }
 
@@ -92,18 +101,22 @@ select {
     margin-bottom: 20px;
 }
 
+.signup_complate_div {
+    margin-top: 45px;
+    text-align: center;
+}
+
 .user_info_div {
-    /* margin-top: -30px; */
     width: 40%;
     font-size: 12px;
 }
 
 .user_picture_div {
-    margin-top: 30px;
-    line-height: 40px;
+    /* margin-top: 15px; */
+    line-height: 30px;
 }
 
-#user_profile_img {
+.add_profile_img {
     width: 150px;
     height: 150px;
     margin-top: 20px;
@@ -113,9 +126,27 @@ select {
     cursor: pointer;
 }
 
-#user_info_title {
-    margin-top: 3%;
+.signup_complate_button {
+    cursor: pointer;
+}
+
+#company_name_input {
+    /* position: absolute; */
+    /* margin-top: -10px; */
+    font-size: 11px;
+    padding: 5px;
+    width: 30%;
+}
+
+.user_info_title {
+    margin-top: 2%;
     text-align: center;
+}
+
+#seller_logo {
+    margin-top: 30px;
+    margin-bottom: -15px;
+    font-size: 12px;
 }
 
 .user_info_div > #user_profile_notice {
@@ -160,7 +191,7 @@ select {
 }
 
 .user_host_div .host_input {
-    width: 30%;
+    width: 250px;
     padding: 3px;
 }
 
@@ -511,10 +542,24 @@ select {
     grid-template-columns: 43% 50%;
 }
 
+#topic_title_grid {
+    display: grid;
+    grid-template-columns: 85% 15%;
+    font-size: 16px;
+}
+
 #topic_title {
     margin-left: 3%;
     margin-top: 20px;
 }
+
+#topic_title_grid > #topic_company_notice {
+    font-size: 0.7rem;
+}
+
+/* #topic_company_notice {
+    font-size: 13px; */
+/* } */
 
 #topic_img {
     padding: 10px;
@@ -832,9 +877,17 @@ select {
     font-size: 12px;
 }
 
+.cart_company {
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: 200;
+    text-shadow: 0px 1px greenyellow;
+    padding-bottom: 10px;
+}
+
 .cart_checkbox {
     display: grid;
-    grid-template-columns: 3% 35% 53% 30%;
+    grid-template-columns: 3% 35% 50% 30%;
     margin: 10px;
     font-size: 14px;
 }
@@ -947,4 +1000,46 @@ select {
 
 #order_tool div {
     margin: 30px;
+}
+
+#user_info_border,
+#order_list_border {
+    border: solid 1px #ababab;
+    padding: 15px;
+    margin-left: -5px;
+    line-height: 35px;
+    font-size: 13px;
+
+}
+
+#user_info_nickname {
+    margin-left: 25%;
+}
+
+.phone_input {
+    padding: 3px;
+    width: 4%;
+    text-align: center;
+}
+
+#user_info_host_div {
+    line-height: 25px;
+}
+
+.host_input {
+    width: 30%;
+    padding: 3px;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+#aa {
+    margin-left: 17px;
+}
+
+#order_alert_notice_input {
+    padding: 3px;
+    width: 39%;
+    font-size: 14px;
 }

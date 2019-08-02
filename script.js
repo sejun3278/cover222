@@ -134,36 +134,14 @@ $(document).ready( () => {
         $('#buy_total_price').html(String(total).replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,'));
     }
 
-
-    //////////////////////////////////////////////////////////////
-    // 장바구니 //////////////////////////////////////////////////
-
-    // if($('.cart_checkbox').length !== 0 && location.href.includes('cart.php')) {
-    //     // 최소 1개 이상의 장바구니가 있고, 현재 위치가 cart.php에 있으면 실행
-
-    //     // for(let i = 0; i < $('.cart_checkbox').length; i++) {
-    //     //     let topic_id = $('.cart_checkbox')[i].classList[1];
-    //     //     $("input:checkbox[name=cart_c_" + topic_id +"]").prop("checked", true);
-
-    //     // }
-
-
-    // }
-    ///////////////////////////////////////////////////////////////
 });
-$div = 
-
-//                 $('.signup_form_div').html($div);
-// 
 
 $('#signup_button').bind('click', () => {
-    
     let id = document.getElementById('signup_id').value.trim();
     let nickname = document.getElementById('signup_nick').value.trim();
     let password = document.getElementById('signup_pass').value.trim();
     let confirm = document.getElementById('signup_confirm').value.trim();
 
-    let type;
     $(document).ready( () => {
         type = $('input[name="user_type"]:checked').val();
     })
@@ -246,34 +224,17 @@ $('#signup_button').bind('click', () => {
     })
 
     if(allow) {
-        // $div = `<div class='user_info_div'> 
-        //           <h3 id='user_info_title'> 회원 정보 </h3>
-        //           <div class='user_picture_div'>
-        //           </div>
-        //         </div>`
-        //         $('.signup_form_div').html($div);
         
     $('.signup_form_div').fadeOut('500');
     setTimeout( () => {
+        if(type === 'buyer') {
+            $('.signup_none_buyer').css({ 'display' : 'block' });
 
-        // return window.location.replace('signup_user.php?type=' + type + '&id=' + id);
+        }  else {
+            $('.signup_none_seller').css({ 'display' : 'block' });
+
+        }
     }, 500);
-    // const data = { id : id, nickname : nickname, password : password, type : type };
-
-    // $.ajax({
-    //     url : "signup_updata.php",
-    //     type : "post",
-    //     data : data,
-    //     async : false,
-    //     success : ( (result) => {
-
-    //         if(result === 'true') {
-    //             alert('회원가입이 완료되었습니다.');
-
-    //             return window.location.replace('login.php?id=' + id);
-    //         }
-    //     })
-    // });
     }
 })
 
@@ -312,16 +273,17 @@ $('#login_button').bind('click', () => {
             url : "login_check.php",
             type : "post",
             data : data,
-            async : false,
+            // async : false,
             success : ( (result) => {
 
-                if(result === 'false') {
+                if(result === 'false' && result === 'not_define_user') {
                     $alert = `<div class='login_fail_alert b' id='alert_fail'> * 아이디 및 비밀번호를 다시 확인하십시오. </div>`;
                     return $('.login_tool').append($alert);
-                }
 
-                alert('반갑습니다, ' + id + '님!');
-                return window.history.back();
+                } else if(result === 'true') {
+                    alert('반갑습니다, ' + id + '님!');
+                    return window.location.replace('index.php');
+                }
             })
         });
     }
@@ -915,6 +877,11 @@ $('.order_selector').bind('click', (event) => {
 })
 
 $('.cart_order').bind('click', () => {
+    let select = Number($('.choice_result_num')[0].classList[1]);
+    if(select === 0) {
+        return alert('선택된 상품이 하나도 없습니다.');
+    }
+
     let check = confirm('주문을 진행하시겠습니까?');
     
     if(check) {
@@ -922,15 +889,25 @@ $('.cart_order').bind('click', () => {
     }
 })
 
-$('#user_profile_img').bind('click', () => {
-    document.all.user_img_input.click();
+$('.add_profile_img').bind('click', (event) => {
 
+    let type = $('input[name="user_type"]:checked').val();
+    $('#img_change_' + type).click();
 })
 
-$('#user_img_change').change( () => {
-    let img = document.all.user_img_input.value;
-    let file = $('#user_img_change')[0].files[0];
-    let id = $('.signup_user_grid')[0].classList[1];
+$('.user_img_change').change( () => {
+    let type = $('input[name="user_type"]:checked').val();
+    
+    let img = null;
+    if(type === 'buyer') {
+        img = document.all.user_img_input_buyer.value;
+
+    } else {
+        img = document.all.user_img_input_seller.value;
+    }
+
+    let file = $('.user_img_change_' + type)[0].files[0];
+    let id = $('.signup_input_id').val().trim();
     
     var formData = new FormData();
     formData.append('file', file);
@@ -961,28 +938,165 @@ function call_ajax(formData, id) {
         // contentType: 'multipart/form-data',
         // dataType: 'json',
         cache: false,
+
     }).done( (result) => {
+        $('.company_complate_error').remove();
+        let type = $('input[name="user_type"]:checked').val();
+
         if(result === 'true') {
-                $('#user_profile_img').attr({ 'src' : './source/updating.gif'});
-                $('#user_profile_img').addClass('add');
+                $('.add_profile_img_' + type).attr({ 'src' : './source/updating.gif'});
+                $('.add_profile_img_' + type).addClass('add');
 
                 setTimeout( () => {
-                    return $('#user_profile_img').attr({ 'src' : './source/user_profile_example/' + id + '.png'});
+                    return $('.add_profile_img_' + type).attr({ 'src' : './source/user_profile_example/' + id + '.png'});
                 }, 500);
 
         } else if(result === 'false') {
 
-            $('#user_profile_img').removeClass('add');
-            $('#user_profile_img').attr({ 'src' : './source/user_profile.png' });
+            $('.add_profile_img_' + type).removeClass('add');
+            $('.add_profile_img_' + type).attr({ 'src' : './source/user_profile.png' });
         }
     })
 }
 
-$('#final_signup_button').bind('click', () => {
-    let user_id = $('.signup_user_grid')[0].classList[1];
-    let img = $('#user_profile_img')[0].classList.contains('on');
-    let nickname = document.getElementById('signup_nick').value.trim();
-    let password = document.getElementById('signup_pass').value.trim();
-    let confirm = document.getElementById('signup_confirm').value.trim();
+    function phone_number_input() {
+        let type = $('input[name="user_type"]:checked').val();
 
+        let phone = {
+            middle : $('.signup_middle_phone_' + type).val(),
+            last : $('.signup_last_phone_' + type).val(),
+        }
+
+        let allow = true;
+        let $alert = '';
+        $('.sign_complate_error').remove();
+
+        let select = 'phone_first_num_' + type
+        let number = String($("select[name=" + select +"]").val() + phone.middle +  phone.last);
+        let number_type = Number(number);
+
+        if(number.length !== 11) {
+            $alert = `<u class='sign_complate_error b'> * 칸당 4글자씩 채워주세요. </u>`;
+            allow = false;
+    
+        } else if(isNaN(Number(number_type))) {
+            $alert = `<u class='sign_complate_error b'> * 숫자만 기입해주세요. </u>`;
+            allow = false;
+        }
+
+        $('.user_phone_alert_div_' + type).append($alert);
+        return allow;
+    }
+
+$('.user_phone_number_input').change( (event) => {
+    return phone_number_input(event);
+})
+
+$('.host_input').change( (event) => {
+    return host_check();
+})
+
+function host_check() {
+    let type = $('input[name="user_type"]:checked').val();
+
+    let first = $('.signup_first_host_' + type).val();
+    let second = $('.signup_second_host_' + type).val();  
+    $('.host_complate_error').remove();
+
+    let allow = true;
+    let $alert = '';
+    if(first.length === 0 || second.length === 0) {
+        $alert = '<u class="host_complate_error b"> * 빈칸들을 모두 기입해주세요. </u>'
+        allow = false;
+
+    } else if(first.includes('/') || second.includes('/')) {
+        $alert = '<u class="host_complate_error b"> * (/) 문구는 사용할 수 없습니다. </u>'
+        allow = false;
+    }
+
+    $('.user_host_alert_div_' + type).append($alert);
+    return allow;
+}
+
+function check_company_logo() {
+    let img = document.all.user_img_input_seller.value;
+    $('.company_complate_error').remove();
+    
+    if(img === '') {
+        $alert = '<u class="company_complate_error b"> * 판매 대표 로고는 필수입니다. </u>'
+        $('.user_picture_div_seller').append($alert);
+        return false;
+    }
+    return true;
+}
+
+$('.signup_complate_button').bind('click', (event) => {
+    let type = $('input[name="user_type"]:checked').val();
+    
+    let nickname = $('.signup_input_nick').val().trim();
+    let company = null;
+    if(type === 'seller') {
+        var logo = check_company_logo();
+        if($('#company_name_input').val().trim().length === 0) {
+            company = nickname;
+        } else {
+            company = $('#company_name_input').val().trim();
+        }
+    }
+    
+    const host = host_check();
+    const phone = phone_number_input();
+    
+    if(!logo && type === 'seller') {
+        return;
+    }
+    console.log(33);
+
+    if(host, phone) {
+        let file = $('.user_img_change')[0].files[0];
+        let id = $('.signup_input_id').val().trim();    
+        let password = $('.signup_input_pass').val().trim();
+        let confirm = $('.signup_input_confirm').val().trim();
+        
+        var formData = new FormData();
+        formData.append('user_id', id);
+        formData.append('file', file);
+        formData.append('boo', 'add');
+
+        call_ajax(formData, id);
+        
+        let phone = {
+            middle : $('.signup_middle_phone_' + type).val(),
+            last : $('.signup_last_phone_' + type).val(),
+        }
+        let first = $('.signup_first_host_' + type).val();
+        let second = $('.signup_second_host_' + type).val(); 
+        const host = { first : first, second : second };
+
+        let select = 'phone_first_num_' + type
+        let phone_val = String($("select[name=" + select +"]").val() + '-' +phone.middle + '-' +phone.last);
+
+        file = id + '.png';
+        if(!$('.add_profile_img_' + type)[0].classList.contains('add')) {
+            file = null;
+        }
+
+        const data = { id : id, nickname : nickname, password : password, confirm : confirm, type : type, host_first : host.first, host_second : host.second, phone : phone_val, file : file, company : company }
+        console.log(data);
+
+        $.ajax({
+        url : "signup_updata.php",
+        type : "post",
+        data : data,
+        async : false,
+        success : ( (result) => {
+            console.log(result);
+            if(result === 'true') {
+                alert('회원가입이 완료되었습니다.');
+
+                return window.location.replace('login.php?id=' + id);
+            }
+        })
+    });
+    }
 })

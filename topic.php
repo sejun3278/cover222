@@ -28,6 +28,7 @@
         session_start();
         $user_id = $_SESSION['login'];
 
+
         $mysql = mysqli_connect('sejun.chpyfqbmwueu.ap-northeast-2.rds.amazonaws.com', 'sejun', 'q1w2e3r4t5', 'mall');
         $result = mysqli_query($mysql, "SELECT * FROM topic WHERE id = $id");
 
@@ -60,8 +61,17 @@
         $file = $row['file'];
         $id = $row['id'];
         $price_c = number_format($row['price']);
+        $seller = $row['seller_id'];
 
-          echo "<h3 id='topic_title'> $title </h3>";
+        $company_m = mysqli_query($mysql, "SELECT * FROM user WHERE user_id = $seller");
+        $company_row = mysqli_fetch_array($company_m);
+        $company = $company_row['company'];
+
+          echo "<div id='topic_title_grid'>";
+            echo "<div> <h3 id='topic_title'> $title </h3> </div>";
+            echo "<div id='topic_company_notice'> <u> $company </u> </div>";
+          echo "</div>";
+
           echo "<div class='topic_img_notice_grid'>"; //5
             echo "<div id='topic_img'> <img id='topic_img_file' src='./source/topic_files/$file'/> </div>";
             echo "<div id='topic_notice_div'>";
