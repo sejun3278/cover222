@@ -16,7 +16,7 @@
             echo "<div>";
             echo "<a href='logout.php'> 로그아웃 </a>";
             echo "<u> | </u>";
-            echo "<a> 마이페이지 </a>";
+            echo "<a href='my_page.php'> 마이페이지 </a>";
             echo "</div>";
         }
         echo "</div>";

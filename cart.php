@@ -22,7 +22,7 @@
     <div id='cart_list_tools_div'>    <!-- 2 -->
       <div> </div>
       <div class='center_rayout'> 
-        <div id='cart_title_div'>
+        <div class='title_div'>
           <a class='color_black' href='cart.php'> 
             <img class='title_img' src='./source/cart_background.png'/>
             <b class='titles'> 장바구니 </b>
@@ -40,7 +40,8 @@
             
               } else {
 
-                $result = mysqli_query($mysql, "SELECT * FROM `cart` where user_id = $user_id");
+            $result = mysqli_query($mysql, "SELECT cart.*, topic.* FROM cart INNER JOIN topic ON cart.topic_id = topic.id AND cart.user_id = $user_id ORDER BY seller_id DESC");
+            // $result = mysqli_query($mysql, "SELECT * FROM `cart` where user_id = $user_id");
                 $result_length = mysqli_num_rows($result);
 
                 echo "<hr />";

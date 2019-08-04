@@ -21,7 +21,7 @@
     <div id='like_list_tools_div'>    <!-- 2 -->
       <div> </div>
       <div class='center_rayout'>     <!-- 3 -->
-        <div id='like_list_title_div'>
+        <div class='title_div'>
           <img class='title_img' src='./source/like_list_title.png'/>
           <b class='titles'> <a class='color_black' href='like_list.php'> 찜 리스트 </a> </b>
         </div>
@@ -111,14 +111,19 @@
                         $id = $row['id'];
                         $price = $row['price'];
                         $price_c = number_format($price);
+                        $seller_id = $row['seller_id'];
 
-                        echo "<div id='like_lists'>"; // 2
-                        echo "<div id='like_lists_check_div'> <input id='c_lists_check_$id' class='check_list $id' name='lists_check_$id' type='checkbox' />";
-                        echo "<label class='label_choice point' for='c_lists_check_$id'> 선택 </lavel> </div>";
-                        echo "<div> <a href='topic.php?id=$id'> <img src='./source/topic_files/$file' /> </a> </div>";
-                        // echo "<div> </div>";
-                        echo "<div id='like_lists_title_div'> <a class='color_black' href='topic.php?id=$id'> <div id='like_lists_num'> 상품 번호 : $id </div> <h4 class='l_l_title'> $title </h4> </a> <div id='like_list_price'> $price_c 원 </div> </div>";
-                        echo "<div class='each_remove_button $id like_list'> <a class='point'> 개별 삭제 </a> </div>";
+                        $seller = mysqli_query($mysql, "SELECT * FROM user where user_id = $seller_id");
+                        $seller_row = mysqli_fetch_array($seller);
+
+                        $company = $seller_row['company'];
+
+                        echo "<div class='like_lists'>"; // 2
+                          echo "<div class='like_lists_check_div'> <input id='c_lists_check_$id' class='check_list $id' name='lists_check_$id' type='checkbox' />";
+                          echo "<label class='label_choice point' for='c_lists_check_$id'> 선택 </lavel> </div>";
+                          echo "<div> <a href='topic.php?id=$id'> <img class='list_img_width' src='./source/topic_files/$file' /> </a> </div>";
+                          echo "<div class='like_lists_title_div'> <div class='cart_company'> $company </div> <a class='color_black' href='topic.php?id=$id'> <div class='like_list_line'> <u class='like_lists_num'> 상품 번호 : $id </u> <h4 class='l_l_title'> $title </h4> </div>  </a> <div class='like_list_price'> $price_c 원 </div> </div>";
+                          echo "<div class='each_remove_button $id like_list'> <a class='point'> 개별 삭제 </a> </div>";
                         echo "</div>"; // 2;
                     }
                   }

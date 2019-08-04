@@ -1100,3 +1100,131 @@ $('.signup_complate_button').bind('click', (event) => {
     });
     }
 })
+
+function order_complate(price, topic_arr, seller_arr) {
+    let check = confirm('결제를 진행하시겠습니까?');
+    if(check) {
+        let payment_type = $('#order_payment_select').val();
+
+        let cover_arr = seller_arr;
+        let result_arr = [];
+
+        // 배열안에 2개 이상의 동일한 판매자를 하나씩으로 통일
+        cover_arr = cover_arr.forEach( (el, key) => {
+            let check = cover_arr[key] !== cover_arr[key + 1]
+            if(check) {
+                result_arr.push(cover_arr[key]);
+
+            } else if(cover_arr[key + 1] === undefined) {
+                result_arr.push(cover_arr[key]);
+            } 
+        })
+
+        result_arr.forEach( (el) => {
+            // 판매자에게 알람 전송
+            let seller_alert = { type : 'alert', seller_id : el };
+            $.ajax({
+                url : "order_complate.php",
+                type : "post",
+                data : seller_alert,
+            })
+        });
+
+        let seller_alert = { type : 'search' };
+        let count = 0;
+
+        $.ajax({
+            url : "order_complate.php",
+            type : "post",
+            data : seller_alert,
+            async : false,
+        })
+        .done( (result) => {
+            let order_id = Number(result) + 1;
+
+            topic_arr.forEach( (el, key) => {
+                let cart_delete = { type : 'delete', topic_id : el };
+                $.ajax({
+                    url : "order_complate.php",
+                    type : "post",
+                    data : cart_delete,
+                    async : false,
+                })
+                .done( (num) => {
+                    let data = { type : 'add', seller_id : seller_arr[key], topic_id : el, price : price, payment_type : payment_type, order_id : order_id, num : num };
+                    
+                    $.ajax({
+                        url : "order_complate.php",
+                        type : "post",
+                        data : data,
+                        async : false,
+                    })
+                    .done( (result) => {
+                        if(result === 'true') {
+                            count++;
+                        }
+                        if(count === topic_arr.length) {
+                            alert('상품 구입이 완료되었습니다.');
+                            return window.location.replace('index.php');
+                        }
+                    })
+                })
+            })
+        })
+
+        return;
+        // const cart_delete = { price : price, payment_type : payment_type, type : 'delete' };
+
+        // 해당 물품이 들어있는 장바구니 삭제
+        topic_arr.forEach( (el) => {
+            let cart_delete = { type : 'delete', topic_id : el };
+            $.ajax({
+                url : "order_complate.php",
+                type : "post",
+                data : cart_delete,
+            })
+        })
+        ///////////////////////////////////
+        
+
+        // topic_arr.forEach( (el) => {
+            // order_id 최신 찾기
+            // let seller_alert = { price : price, type : 'search', seller_id : el };
+            
+
+            $.ajax({
+                url : "order_complate.php",
+                type : "post",
+                data : seller_alert,
+                async : false,
+            })
+            .done( (result) => {
+                    console.log(result);
+                return
+                topic_arr.forEach( (el, key) => {
+                    let order_id = Number(result) + 1;
+
+                    let data = { type : 'add', seller_id : seller_arr[key], topic_id : el, price : price, payment_type : payment_type, order_id : order_id };
+
+                    $.ajax({
+                        url : "order_complate.php",
+                        type : "post",
+                        data : data,
+                        async : false,
+                    })
+                    .done( (result) => {
+                        if(result === 'true') {
+                            count++;
+                        }
+                        if(count === topic_arr.length) {
+                            alert('상품 구입이 완료되었습니다.');
+                            return window.location.replace('index.php');
+                        }
+                    })
+
+                })
+            })
+        // });
+
+    }
+}
