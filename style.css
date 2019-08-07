@@ -7,6 +7,10 @@
     color: black;
 }
 
+.center {
+    text-align: right;
+}
+
 a, u {
     text-decoration: none;
     /* color: black; */
@@ -190,7 +194,8 @@ select {
     margin-left: -7%;
 }
 
-.user_host_div .host_input {
+.user_host_div .host_input,
+.user_host_div .host_input_order {
     width: 250px;
     padding: 3px;
 }
@@ -213,9 +218,12 @@ select {
 }
 
 .type_checkbox_div {
-    display: grid;
-    grid-template-columns: 22% 30%;
     margin-top: 20px;
+}
+
+.type_checkbox_div li {
+    display: inline;
+    margin-right: 80px;
 }
 
 #login_title {
@@ -267,6 +275,7 @@ select {
     padding: 10px;
     text-align: center;
     cursor : pointer;
+    font-weight: bold;
 }
 
 .point {
@@ -276,8 +285,8 @@ select {
 #go_signup {
     text-align: center;
     font-size: 14px;
-    margin-left: -1%;
-    margin-top: 20px;
+    margin-left: -2%;
+    margin-top: 40px;
 }
 
 .category_tools {
@@ -710,7 +719,7 @@ select {
 
 .like_list_line {
     margin-top: 10px;
-    line-height: 30px;
+    line-height: 19px;
 }
 
 .like_lists_num {
@@ -752,16 +761,16 @@ select {
 
 .like_lists {
     display: grid;
-    grid-template-columns: 12% 10% 69% 15%;
+    grid-template-columns: 8% 6% 69% 15%;
     margin: 5%;
     border: solid 1px #ababab;
-    padding: 15px;
+    padding: 10px;
 }
 
 .like_lists img {
-    width: 170px;
-    height: 170px;
-    margin-left: 30%;
+    width: 150px;
+    height: 150px;
+    margin-left: 50%;
 }
 
 .like_lists .like_lists_check_div {
@@ -799,7 +808,6 @@ select {
     position: relative;
     width: 50%;
     margin-left: 25%;
-    margin-top: -10px;
 }
 
 .propmt_cart {
@@ -889,16 +897,14 @@ select {
 }
 
 .cart_company {
-    margin-top: -10px;
+    /* margin-top: -10px; */
     font-size: 12px;
     font-weight: 200;
     text-shadow: 0px 1px greenyellow;
-    padding-bottom: 10px;
 }
 
 .list_img_width {
-    margin-left: -10px;
-    width: 150px;
+    border: solid 1px #ababab;
 }
 
 .cart_checkbox {
@@ -1017,26 +1023,39 @@ select {
 }
 
 #order_tool div {
-    margin: 30px;
+    /* margin: 30px; */
+}
+
+#user_info_grid {
+    display: grid;
+    grid-template-columns: 45% 55%;
+    height: 90%;
+    
 }
 
 #user_info_border,
 #order_list_border {
     border: solid 1px #ababab;
     padding: 15px;
-    margin-left: -5px;
+    margin-left: 15px;
     line-height: 35px;
     font-size: 13px;
+    margin-left: 25px;
+    width: 90%;
+}
 
+#user_info_border {
+    overflow: auto;
+    height: 450px;
 }
 
 #user_info_nickname {
-    margin-left: 25%;
+    margin-left: 40%;
 }
 
 .phone_input {
     padding: 3px;
-    width: 38px;
+    width: 63px;
     text-align: center;
 }
 
@@ -1044,7 +1063,8 @@ select {
     line-height: 25px;
 }
 
-.host_input {
+.host_input,
+.host_input_order {
     width: 30%;
     padding: 3px;
     font-size: 14px;
@@ -1058,28 +1078,27 @@ select {
 
 #order_alert_notice_input {
     padding: 3px;
-    width: 39%;
     font-size: 14px;
+    width: 98%;
 }
 
 .like_lists_company {
     font-size: 12px;
 }
 
-/* .order_lists {
-    display: grid;
-    grid-template-columns: 5% 95%;
-} */
+.order_lists {
+    border: solid 1px #ababab;
+    padding: 20px;
+}
 
 .order_company_list {
-    margin-top: 50%;
     text-shadow: 0px 1px greenyellow;
     line-height: 25px;
 }
 
 .order_item_list {
     display: grid;
-    grid-template-columns: 30% 80%;
+    grid-template-columns: 30% 68%;
     /* border-left: solid 1px #ababab; */
 }
 
@@ -1103,12 +1122,19 @@ select {
 }
 
 .order_list_total_div {
+    display: grid;
+    grid-template-columns: 35% 65%;
     text-align: right;
     padding: 5px;
     background-color: black;
     color: white;
     /* border: solid 1px black; */
-    width: 90%;
+    width: 99.1%;
+    font-size: 14px;
+}
+
+#user_info_margin {
+    margin-top: 15px;
 }
 
 .notice_devlivery {
@@ -1121,14 +1147,14 @@ select {
 }
 
 .final_total_price {
-    margin-right: 5%;
+    /* margin-right: 5%; */
     text-align: right;
 }
 
 .order_final_price {
     /* border: solid 1px #ababab; */
     margin-top: 20px;
-    width: 90%;
+    width: 95%;
 }
 
 .order_complate {
@@ -1145,10 +1171,13 @@ select {
     cursor: pointer;
 }
 
-/* .order_user_info_div {
-    display: grid;
-    grid-template-columns: 50% 50%;
-} */
+.order_user_info_div {
+    margin-left: 20px;
+} 
+
+.order_user_info_div u {
+    color: #ababab;
+}
 
 #total_line {
     width: 97%;
@@ -1159,6 +1188,8 @@ select {
     border: solid 1px #ababab;
     padding: 10px;
     line-height: 30px;
+    margin-left: 20px;
+    width: 91.5%;
 }
 
 #order_payment_type {
@@ -1184,8 +1215,6 @@ select {
 
 #mini_id_and_nick {
     margin-top: 5px;
-    margin-left: 5px;
-    /* font-size: 14px; */
 }
 
 .mini_div_styling {
@@ -1225,6 +1254,7 @@ select {
 
 .my_order_list_div {
     padding: 15px;
+    margin-left: 20px;
 }
 
 .my_order_list_margin {
@@ -1235,8 +1265,6 @@ select {
 .my_order_lists {
     border: solid 1px black;
     margin-top: 15px;
-    padding: 15px;
-    margin-bottom: 7%;
 }
 
 .my_order_list_img {
@@ -1287,4 +1315,71 @@ select {
     margin-left: 40%;
     width: 100%;
     text-shadow: 0px 1px greenyellow;
+}
+
+#save_my_info_button {
+    text-align: center;
+    margin-top: 15px;
+}
+
+#save_my_info_button a {
+    color: #ababab;
+}
+
+.user_save_host {
+    border: solid 1px #ababab;
+    border-left: none;
+    margin-left: -10px;
+    width: 90%;
+    height: 480px;
+    overflow: auto;
+}
+
+.user_save_contents {
+    margin-left: 40px;
+    margin-top: 20px;
+    overflow: auto;
+}
+
+#empty_my_host {
+    text-align: center;
+}
+
+.save_my_list {
+    border: solid 1px #ababab;
+    border-radius: 10px;
+    width: 92%;
+    padding: 5px;
+    line-height: 30px;
+    padding-bottom: 15px;
+}
+
+.save_my_list_a_tag,
+.save_my_list u {
+    color: black;
+}
+
+#z {
+    letter-spacing: 10.5px;
+}
+
+#bbb {
+    margin-left: 20px;
+}
+#b {
+    margin-left: 100px;
+}
+
+.remove_each_my_list {
+    text-align: right;
+}
+
+.remove_each_my_list a {
+    color: black;
+}
+
+#max_list_length {
+    padding: 10px;
+    font-size: 14px;
+    color: #ababab;
 }

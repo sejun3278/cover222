@@ -1,44 +1,40 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
+
+require_once("./config/config.php");
 $id = $_POST['id'];
-$password = $_POST['password'];
+$id = '"' . $id . '"';
 
-    $mysql = mysqli_connect('sejun.chpyfqbmwueu.ap-northeast-2.rds.amazonaws.com', 'sejun', 'q1w2e3r4t5', 'mall');
-    mysqli_set_charset($mysql, "utf8");
+$result = mysqli_query($mysql, "SELECT * FROM user WHERE `user_id` = $id");
 
-      if (mysqli_connect_errno()) {
-        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  if($result === false) {
+    echo mysqli_error('error : ' + $mysql);
+  }
+
+  $num = mysqli_num_rows($result);
+  if($num === 0) { // 아이디가 없는 경우
+    echo $num;
+
+  } else {
+    $password = $_POST['password'];
+    
+    while($row = mysqli_fetch_array($result)) {
+      $id = $row['id'];
+      
+      $hash = hash("sha256", $password);
+      $default = $row['password'];
+
+      if($hash === $default) {
+        session_start();
+        $_SESSION['login'] = $id;
+
+        echo 'true';
+        exit;
 
       } else {
-        $result = mysqli_query($mysql, "SELECT * FROM user WHERE `user_id` = $id");
-
-        if($result === false) {
-          echo mysqli_error('error : ' + $mysql);
-        }
-
-        $num = 0;
-        while($row = mysqli_fetch_array($result)) {
-          $hash = hash("sha256", $password);
-          $default = $row['password'];
-
-          $num = $num + 1;
-          
-          if($hash === $default) {
-            session_start();
-            $_SESSION['login'] = $id;
-  
-            echo 'true';
-            exit;
-          }
-        }
-
-        if($num === 0) {
-          echo 'not_define_user';
-          exit;
-        }
-      
-        echo 'false';
+        echo '0';
+        exit;
       }
-      
+    }
+  }
       mysqli_close($mysql);
 ?>

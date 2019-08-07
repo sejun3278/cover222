@@ -22,16 +22,18 @@
 
       <div class='login_tool'>
         <div id='login_id_div'>
+        <form>
           <?php
             $id = $_GET['id'];
-            echo "ID <br /> <input type='text' value='$id' class='login_input alert_id' id='login_id' />"
+            echo "ID <br /> <input type='text' value='$id' class='login_input alert_id login_id' />"
           ?>
 
         </div>
 
         <div id='login_password_div'>
-          Password <br /> <input type='password' class='login_input alert_password' id='login_pass' />
+          Password <br /> <input autocomplete='off' type='password' class='login_input alert_password login_pass' />
         </div>
+        </form>
       </div>
     </div>
 

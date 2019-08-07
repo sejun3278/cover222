@@ -123,7 +123,7 @@
                           echo "<label class='label_choice point' for='c_lists_check_$id'> 선택 </lavel> </div>";
                           echo "<div> <a href='topic.php?id=$id'> <img class='list_img_width' src='./source/topic_files/$file' /> </a> </div>";
                           echo "<div class='like_lists_title_div'> <div class='cart_company'> $company </div> <a class='color_black' href='topic.php?id=$id'> <div class='like_list_line'> <u class='like_lists_num'> 상품 번호 : $id </u> <h4 class='l_l_title'> $title </h4> </div>  </a> <div class='like_list_price'> $price_c 원 </div> </div>";
-                          echo "<div class='each_remove_button $id like_list'> <a class='point'> 개별 삭제 </a> </div>";
+                          echo "<div class='each_remove_button $id like_list'> <a class='point center'> 개별 삭제 </a> </div>";
                         echo "</div>"; // 2;
                     }
                   }

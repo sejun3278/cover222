@@ -171,48 +171,6 @@ $('#signup_button').bind('click', () => {
         } else {
             $('#alert_' + str_array[key]).remove();
 
-            if(str_array[key] === 'id' || str_array[key] === 'nickname') {
-            function check_id_nick(el) {
-                let posi = str_array[key];
-                if(str_array[key] === 'id') {
-                    posi = 'user_id';
-                }
-
-                const data = { data : el, position : posi };
-                var res = false;
-                
-                $.ajax({
-                    url : "signup_check.php",
-                    type : "post",
-                    data : data,
-                    async : false,
-                    success : ( (result) => {
-                        if(result === '0') {
-                            res = true;
-                            return res;
-                        }
-                    })
-                });
-                return res;
-            }
-            id_check = check_id_nick(id);
-            nick_check = check_id_nick(nickname);
-
-            if(!id_check) {
-                $('#alert_id').remove();
-                allow = false;
-                $alert = `<div class='signup_alert b' id='alert_id'> * 이미 사용중인 아이디입니다. </div>`;
-                $('#signup_id_div').append($alert);
-            }
-
-            if(!nick_check) {
-                $('#alert_nickname').remove();
-                allow = false;
-                $alert = `<div class='signup_alert b' id='alert_nickname'> * 이미 사용중인 닉네임입니다. </div>`;
-                $('#signup_nickname_div').append($alert);
-            }
-        }
-
             if(str_array[key] === 'confirm') {
                 if(password !== confirm) {
                     allow = false;
@@ -220,30 +178,64 @@ $('#signup_button').bind('click', () => {
                     return $('#signup_' + str_array[key] +'_div').append($alert);
                 }
             }
-        }
+        }    
     })
 
-    if(allow) {
+    function check_id_nick(el, type) {
+        const data = { data : el, position : type };
+        var res = false;
         
-    $('.signup_form_div').fadeOut('500');
-    setTimeout( () => {
-        if(type === 'buyer') {
-            $('.signup_none_buyer').css({ 'display' : 'block' });
+        $.ajax({
+            url : "signup_check.php",
+            type : "post",
+            data : data,
+            async : false,
+            success : ( (result) => {
 
-        }  else {
-            $('.signup_none_seller').css({ 'display' : 'block' });
+                if(result === '') {
+                    // 중복되지 않는 경우
+                    res = true;
+                    return res;
+                }
+            })
+        });
+        return res;
+    }
 
-        }
-    }, 500);
+    id_check = check_id_nick(id, 'user_id');
+    nick_check = check_id_nick(nickname, 'nickname');
+
+    if(!id_check) {
+        $('#alert_id').remove();
+        allow = false;
+        $alert = `<div class='signup_alert b' id='alert_id'> * 이미 사용중인 아이디입니다. </div>`;
+        $('#signup_id_div').append($alert);
+    }
+
+    if(!nick_check) {
+        $('#alert_nickname').remove();
+        allow = false;
+        $alert = `<div class='signup_alert b' id='alert_nickname'> * 이미 사용중인 닉네임입니다. </div>`;
+        $('#signup_nickname_div').append($alert);
+    }
+
+    if(allow) {
+        $('.signup_form_div').fadeOut('500');
+        setTimeout( () => {
+            if(type === 'buyer') {
+                $('.signup_none_buyer').css({ 'display' : 'block' });
+
+            }  else {
+                $('.signup_none_seller').css({ 'display' : 'block' });
+            }
+        }, 500);
     }
 })
 
 $('#login_button').bind('click', () => {
-    let id = document.getElementById('login_id').value.trim();
-    let password = document.getElementById('login_pass').value.trim();
-
-    $('.login_fail_alert').remove();
-
+    let id = $('.login_id').val().trim();
+    let password = $('.login_pass').val().trim();
+    
     let allow = true;
     let $alert = '';
 
@@ -255,8 +247,13 @@ $('#login_button').bind('click', () => {
             $('#alert_' + el).remove();
             allow = false;
 
-            $alert = `<div class='login_alert b' id='alert_${el}'> * 최소 1글자 이상, 10글자 이하로 입력해야 합니다. </div>`;
+            $alert = `<div class='login_alert b alert_${el}' id='alert_${el}'> * 최소 1글자 이상, 10글자 이하로 입력해야 합니다. </div>`;
             $('#login_' + el + '_div').append($alert);
+
+            $('.login_alert').bind('click', (event) => {
+                let select = $(event.currentTarget)[0].classList[2];
+                $('#' + select).remove();
+            })
         }
     })
     
@@ -265,6 +262,7 @@ $('#login_button').bind('click', () => {
         $('#' + val).remove();
     })
 
+    $('.login_fail_alert').remove();
     if(allow) {
 
         const data = { id : id, password : password };
@@ -275,8 +273,8 @@ $('#login_button').bind('click', () => {
             data : data,
             // async : false,
             success : ( (result) => {
-
-                if(result === 'false' && result === 'not_define_user') {
+                if(result === '0') {
+                    
                     $alert = `<div class='login_fail_alert b' id='alert_fail'> * 아이디 및 비밀번호를 다시 확인하십시오. </div>`;
                     return $('.login_tool').append($alert);
 
@@ -288,6 +286,7 @@ $('#login_button').bind('click', () => {
         });
     }
 })
+
 
 $('#category_img').bind('click', () => {
     category_open();
@@ -928,7 +927,8 @@ $('.user_img_change').change( () => {
     return call_ajax(formData, id);
 })
 
-function call_ajax(formData, id) {
+
+function call_ajax(formData, id, boo) {
     return $.ajax({
         url : "user_img_update.php?files",
         type : "post",
@@ -1037,8 +1037,10 @@ $('.signup_complate_button').bind('click', (event) => {
     let company = null;
     if(type === 'seller') {
         var logo = check_company_logo();
+
         if($('#company_name_input').val().trim().length === 0) {
             company = nickname;
+
         } else {
             company = $('#company_name_input').val().trim();
         }
@@ -1050,10 +1052,9 @@ $('.signup_complate_button').bind('click', (event) => {
     if(!logo && type === 'seller') {
         return;
     }
-    console.log(33);
 
     if(host, phone) {
-        let file = $('.user_img_change')[0].files[0];
+        let file = $('.user_img_change_' + type)[0].files[0];
         let id = $('.signup_input_id').val().trim();    
         let password = $('.signup_input_pass').val().trim();
         let confirm = $('.signup_input_confirm').val().trim();
@@ -1074,7 +1075,7 @@ $('.signup_complate_button').bind('click', (event) => {
         const host = { first : first, second : second };
 
         let select = 'phone_first_num_' + type
-        let phone_val = String($("select[name=" + select +"]").val() + '-' +phone.middle + '-' +phone.last);
+        let phone_val = String($("select[name=" + select +"]").val() + '-' + phone.middle + '-' + phone.last);
 
         file = id + '.png';
         if(!$('.add_profile_img_' + type)[0].classList.contains('add')) {
@@ -1082,7 +1083,6 @@ $('.signup_complate_button').bind('click', (event) => {
         }
 
         const data = { id : id, nickname : nickname, password : password, confirm : confirm, type : type, host_first : host.first, host_second : host.second, phone : phone_val, file : file, company : company }
-        console.log(data);
 
         $.ajax({
         url : "signup_updata.php",
@@ -1090,7 +1090,6 @@ $('.signup_complate_button').bind('click', (event) => {
         data : data,
         async : false,
         success : ( (result) => {
-            console.log(result);
             if(result === 'true') {
                 alert('회원가입이 완료되었습니다.');
 
@@ -1226,5 +1225,180 @@ function order_complate(price, topic_arr, seller_arr) {
             })
         // });
 
+    }
+}
+
+$('.phone_input').change( () => {
+    const obj = {
+        type : 'phone',
+        alert : '.alert',
+        select : '#change_user_phone',
+        first : '.phone_text_1',
+        second : '.phone_text_2',
+        alert_host : '#user_info_margin',
+        alert_name : 'alert',
+    }
+    order_input_check(obj)
+})
+
+$('.host_input_order').change( () => {
+    const obj = {
+        type : 'host',
+        alert : '.host_alert',
+        select : '#user_info_host_title',
+        first : '.host_test_1',
+        second : '.host_test_2',
+        alert_host : '#user_info_host_div',
+        alert_name : 'alerts',
+    }
+
+    order_input_check(obj)
+})
+
+function order_input_check(obj) {
+    var $alert = '';
+    if(obj.type === 'phone') {
+        $alert = '* 전화 번호 <b class="b"> (변경) </b>'
+    } else {
+        $alert = '* 주소 <b class="b"> (변경) </b>'
+    }
+
+    $('.' + obj.alert_name).remove();
+    $(obj.select).addClass('change');
+    $(obj.select).html($alert)
+
+    let first = $(obj.first)[0].value;
+    let second = $(obj.second)[0].value;
+
+    var check = true;
+    var $alert = '';
+
+    check_num(first);
+
+    if(check) {
+        check_num(second);
+    }
+
+    function check_num(num) {
+        let first_check = $('#user_info_host_title')[0].classList.contains('change');
+        let second_check = $('#change_user_phone')[0].classList.contains('change');
+
+        if(first_check || second_check) {
+            $('#save_my_info_button a').css({ 'color' : 'black' });
+        }
+
+        if(obj.type === 'phone') {
+            if(isNaN(Number(num))) {
+                $('#save_my_info_button a').css({ 'color' : '#ababab' });
+                $alert = '<div class="' + obj.alert_name +' b"> * 숫자만 기입해주세요. </div>'
+
+                $(obj.select).removeClass('change');
+                $('#change_user_phone').html('* 전화 번호')
+
+                return check = false;
+        
+            } else if(num.length !== 4) {
+                $('#save_my_info_button a').css({ 'color' : '#ababab' });
+                $alert = '<div class="' + obj.alert_name +' b"> * 칸당 4글자씩 채워주세요. </div>';
+
+                $(obj.select).removeClass('change');
+                $('#change_user_phone').html('* 전화 번호')
+
+                return check = false;
+            }
+
+        } else {
+            if(num.length === 0) {
+                $('#save_my_info_button a').css({ 'color' : '#ababab' });
+                $alert = '<div class="' + obj.alert_name +' b"> * 최소 1글자 이상 입력해주세요. </div>';
+
+                $(obj.select).removeClass('change');
+                $('#user_info_host_title').html('* 주소')
+
+                return check = false;
+            }
+        }
+        return check = true;
+    }
+
+    if(!check) {
+        return $(obj.alert_host).append($alert);
+    }
+}
+
+function add_save_my_info() {
+    let first_check = $('#user_info_host_title')[0].classList.contains('change');
+    let second_check = $('#change_user_phone')[0].classList.contains('change');
+
+    if(!first_check && !second_check) {
+        return alert('변경된 내용이 하나도 없습니다.');
+    }
+
+    const data = {
+        first_phone : $('.selec')[0].value,
+        middle_phone : $('.phone_text_1')[0].value,
+        last_phone : $('.phone_text_2')[0].value,
+        first_host : $('.host_test_1')[0].value,
+        last_host : $('.host_test_2')[0].value,
+    }
+
+    $.ajax({
+        url : "add_my_info.php",
+        type : "post",
+        data : data,
+        async : false,
+
+    }).done( (result) => {
+
+        if(result === 'true') {
+            let offset = $('.user_save_host').offset();
+            $('.user_save_host').animate({ scrollTop : offset.top }, 400);
+
+            alert('새로운 정보를 추가하였습니다.');
+            return window.location.reload();
+
+        } else {
+            alert('더이상 추가할 수 없습니다.');
+            return window.location.reload();
+        }
+    })
+
+}
+
+function call_my_host_info(host_id) {
+    // const data = { host_id : host_id }
+        $.ajax({
+            url : "get_my_host_list.php?host_id=" + host_id,
+            type : "get",
+
+        }).done( (result) => {
+            console.log(result);
+            // alert('해당 자료를 삭제했습니다.');
+            // return window.location.reload();
+        })
+}
+
+$('.save_my_list').bind('mouseover', (event) => {
+    $(event.currentTarget).css({ 'background-color' : '#ebfbee' })
+
+}).bind('mouseleave', (event) => {
+    $(event.currentTarget).css({ 'background-color' : 'white' })
+})
+
+function remove_each_save_list(host_id) {
+    let check = confirm('해당 정보를 정말 삭제하시겠습니까?');
+
+    if(check) {
+        const data = { host_id : host_id }
+        $.ajax({
+            url : "remove_my_save_host.php",
+            type : "post",
+            data : data,
+            async : false,
+
+        }).done( () => {
+            alert('해당 자료를 삭제했습니다.');
+            return window.location.reload();
+        })
     }
 }

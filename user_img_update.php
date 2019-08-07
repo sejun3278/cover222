@@ -1,14 +1,5 @@
 <?php
     header('Content-Type: text/html; charset=utf-8');
-    // $data = array();
-    // $data['success'] = false;
-
-    // if(isset($_GET['files'])) {
-    //     $error = false;
-    //     $files = array();
-    // }
-    // echo $file;
-
     $dir = 'source/user_profile_example/';
     if(!is_dir($dir)) {
         mkdir($dir);
@@ -28,16 +19,14 @@
         echo "false";
         exit;
     }
-
+    
     foreach($_FILES as $file) {
         if($boo === 'example') {
             move_uploaded_file($file['tmp_name'], $dir.$file_name);
             echo "true";
             exit;
 
-        }
-        
-        if($boo === 'add') {
+        } else if($boo === 'add') {
             $dir = 'source/user_profile/';
 
             if(!is_dir($dir)) {

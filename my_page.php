@@ -13,6 +13,7 @@
         <?php
             session_start();
 
+            require_once("./config/config.php");
             require_once("./page/check_login.php");
             require_once("./page/title.php");
             require_once("./page/category.php");
@@ -29,16 +30,17 @@
             <div class='my_status_mini_div'>
                 <?php
                     session_start();
-                    $user_id = $_SESSION['login'];
+                    $id = $_SESSION['login'];
 
-                    $mysql = mysqli_connect('sejun.chpyfqbmwueu.ap-northeast-2.rds.amazonaws.com', 'sejun', 'q1w2e3r4t5', 'mall');
-                    $result = mysqli_query($mysql, "SELECT * FROM `user` where user_id = $user_id");
+                    $result = mysqli_query($mysql, "SELECT * FROM `user` where id = $id");
                     $row = mysqli_fetch_array($result);
 
                     $type = $row['type'];
                     $img = $row['img'];
                     $nickname = $row['nickname'];
+                    $user_id = $row['user_id'];
                     $date = $row['date'];
+
                     echo "<div> </div>";
                     echo "<div class='my_status_mini_img_div'>";
 

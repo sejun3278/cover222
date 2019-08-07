@@ -11,13 +11,12 @@
   <body>
     <div id='index_tool'>
     <?php
+        require_once("./config/config.php");
         require_once("./page/title.php");
         require_once("./page/category.php");
 
-           header('Content-Type: text/html; charset=utf-8');
-           $mysql = mysqli_connect('sejun.chpyfqbmwueu.ap-northeast-2.rds.amazonaws.com', 'sejun', 'q1w2e3r4t5', 'mall');
-           $result = mysqli_query($mysql, "SELECT * FROM topic ORDER BY id DESC");
-
+          $result = mysqli_query($mysql, "SELECT * FROM topic ORDER BY id DESC");
+          
            if(isset($_GET['page'])) {
             $page = $_GET['page'];
           
@@ -26,7 +25,7 @@
           }
 
           $row = $result -> fetch_assoc();
-          $all_post = mysqli_num_rows($result) ; // 모든 게시글의 수
+          $all_post = mysqli_num_rows($result); // 모든 게시글의 수
 
           $one_page = 5; // 한 페이지에 보여줄 게시글의 수.
           $all_page = ceil($all_post / $one_page); //전체 페이지의 수

@@ -34,18 +34,15 @@
 
           <div id='order_tool'> <!-- 4 -->
             <?php
-                $mysql = mysqli_connect('sejun.chpyfqbmwueu.ap-northeast-2.rds.amazonaws.com', 'sejun', 'q1w2e3r4t5', 'mall');
+                require_once("./config/config.php");
+
                 session_start();
                 $user_id = $_SESSION['login'];
 
                 $seller_arr = array();
                 $topic_arr = array();
 
-                if (mysqli_connect_errno()) {
-                    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-                
-                  } else {
-                  $result = mysqli_query($mysql, "SELECT * FROM `user` where user_id = $user_id");
+                  $result = mysqli_query($mysql, "SELECT * FROM `user` where id = $user_id");
                   $row = mysqli_fetch_array($result);
 
                   $nickname = $row['nickname'];
@@ -62,28 +59,69 @@
                   echo "<div class='order_user_info_div'>"; // 5
 
                     echo "<h4> 고객 정보 </h4>";
+                      echo "<div id='user_info_grid'>";
                       echo "<div id='user_info_border'>";
-                      echo "<u> 고객 번호 : $id </u>";
+                      echo "고객 번호 : $user_id";
                       echo "<b id='user_info_nickname'> 닉네임 : $nickname </b> <br />";
-                        echo "전화 번호 : ";
-                        echo "<select class=$phone_first id='user_info_phone_first'> <option> 010 </option> <option> 011 </option> <option> 013 </option> </select> - ";
-                        echo "<input type='text' maxLength='4' class='phone_input' value='$phone_middle'/> - ";
-                        echo "<input type='text' maxLength='4' class='phone_input' value='$phone_last'/>";
-                      
-                      echo "<br />";
-                        echo "<div id='user_info_host_div'>";
-                        echo "<b id='user_info_host_title'> * 주소 </b> <br />";
-                        echo "도/시/군 <input class='host_input' id='aa' type='text' maxLength='20' value='$host_first' /> <br />";
-                        echo "상세 주소 <input class='host_input' type='text' maxLength='30' value='$host_second' />";
+                        echo "<div id='user_info_margin'>";
+                          echo "<b id='change_user_phone'> * 전화 번호 </b> <br />";
+                          echo "<select class='phone_input selec $phone_first' id='user_info_phone_first'> <option> 010 </option> <option> 011 </option> <option> 013 </option> </select> - ";
+                          echo "<input type='text' maxLength='4' class='phone_input phone_text_1' value='$phone_middle'/> - ";
+                          echo "<input type='text' maxLength='4' class='phone_input phone_text_2' value='$phone_last'/>";
                         echo "</div>";
                       
-                      // echo "<br />";
-                      echo "배송 시 유의 사항 <br />";
+                        echo "<div id='user_info_host_div'> <br />";
+                        echo "<b id='user_info_host_title'> * 주소 </b> <br />";
+                        echo "도/시/군 <input class='host_input_order host_test_1' id='aa' type='text' maxLength='20' value='$host_first' /> <br />";
+                        echo "상세 주소 <input class='host_input_order host_test_2' type='text' maxLength='30' value='$host_second' />";
+                        echo "</div>";
+                      
+                      echo "<br />";
+                      echo "<u> 배송 시 유의 사항 </u> <br />";
                       echo "<input id='order_alert_notice_input' type='text' maxLength='30' />";
+
+                      echo "<div id='save_my_info_button'> <a href='javascript:add_save_my_info()'> 현재 정보 저장 → </a> </div>";
                       echo "</div>";
 
+                      echo "<div class='user_save_host'>";
+                        echo "<div class='user_save_contents'>";
+                        $search_my_info = mysqli_query($mysql, "SELECT * FROM `save_user_info` where user_id = $user_id");
+                        $length = mysqli_num_rows($search_my_info);
+  
+                        if($length === 0) {
+                          echo "<h4 id='empty_my_host'> 저장된 내용이 하나도 없습니다. </h4>";
+
+                        } else {
+                          echo "<b id='max_list_length'> 최대 10개까지 추가할 수 있습니다. </b> <br /> <br />";
+                          $save_num = 0;
+                          while($rows = mysqli_fetch_array($search_my_info)) {
+                            $save_num = $save_num + 1;
+
+                            $id = $rows['id'];
+                            $first_phone = $rows['first_phone'];
+                            $middle_phone = $rows['middle_phone'];
+                            $last_phone = $rows['last_phone'];
+                            $first_host = $rows['first_host'];
+                            $last_host = $rows['last_host'];
+
+                            echo " <div class='save_my_list'>";
+                              echo "<div class='remove_each_my_list'> <a href='javascript:remove_each_save_list($id)'> 삭제 </a> </div>";
+                              echo "<a class='save_my_list_a_tag' href='javascript:call_my_host_info($id)'>";
+                              echo "<div style='margin-left : 20px'>";
+                              echo "<h4 style='margin-top : -2px'> NO. $save_num </h4>";
+                              echo "<div> 전화번호 | <u id='bbb'> <u> $first_phone </u> - <u> $middle_phone </u> - <u> $last_phone </u> </u> </div>";
+                              echo "<div> <u id='z'> 주소 | </u> $first_host <br /> <u id='b'> $last_host </u> </div>";
+                              echo "</a> </div>";
+                            echo "</div> ";
+                            echo "<br />";
+                          }
+                        }
+
+                        echo "</div>";
+                      echo "</div>";
+
+                    echo "</div>";
                   echo "</div>"; // 5
-                }
             ?>
 
             <?php
@@ -95,7 +133,7 @@
             $result = mysqli_query($mysql, "SELECT cart.*, topic.* FROM cart INNER JOIN topic ON cart.topic_id = topic.id AND cart.user_id = $user_id ORDER BY seller_id DESC");
 
               echo "<br />";
-              echo "<div class='order_list_div'>";
+              echo "<div class='order_user_info_div'>";
               echo "<h4> 구매 정보 </h4>";
               echo "<div id='order_list_border'>";
 
@@ -129,7 +167,8 @@
                   $company = $company_row['company'];
 
                   echo "<div class='order_company_list'>";
-                  echo "<u class='order_company_title'> $company </u>"; 
+                    echo "<u class='order_company_title'> $company </u>"; 
+                    echo "<hr />";
                   echo "</div>";
 
                   echo "<div class='order_item_list'>";
@@ -189,10 +228,13 @@
                   echo "</div>";
                   
                   echo "<div class='order_list_total_div'>";
+                  echo "<div>";
                   if($delivery > 0) {
-                    echo "<u class='notice_devlivery'> 3만원 이상 결제 시, 배송비 무료 </u>";
+                    echo "<b class='notice_devlivery'> * 3만원 이상 결제 시, 배송비 무료 </b>";
                   }
-                  echo "<b> 결제 금액 : $c_list_total_price 원 </b> ( 최종 금액 : $c_cover_list_price 원 + 배송비 : $c_delivery 원 )";
+                  echo "</div>";
+
+                  echo "<div> <b> 결제 금액 : $c_list_total_price 원 </b> ( 최종 금액 : $c_cover_list_price 원 + 배송비 : $c_delivery 원 ) </div>";
                   echo "</div>";
                   
                   $final_add_price = $final_add_price + $cover_list_price;
@@ -204,14 +246,14 @@
                   $c_final_price = number_format($final_price);
 
                   if($limit + 1 === $all_limit) {
-                    echo "<hr />";
+                    echo "<br /> <br />";
                   }
                 }
                 echo "</div>";
               echo "</div>";
 
               echo "<br />";
-              echo "<div class='order_list_div'>";
+              echo "<div class='order_user_info_div'>";
               echo "<h4> 결제 정보 </h4>";
               echo "<div id='order_payment_div'>";
                 echo "<div id='order_payment_type'>";

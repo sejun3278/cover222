@@ -13,6 +13,7 @@
     <?php
         session_start();
 
+        require_once("./config/config.php");
         require_once("./page/check_login.php");
         require_once("./page/title.php");
         require_once("./page/category.php");
@@ -31,14 +32,8 @@
 
         <div id='cart_tool'>
         <?php
-            $mysql = mysqli_connect('sejun.chpyfqbmwueu.ap-northeast-2.rds.amazonaws.com', 'sejun', 'q1w2e3r4t5', 'mall');
             session_start();
             $user_id = $_SESSION['login'];
-
-            if (mysqli_connect_errno()) {
-                echo "Failed to connect to MySQL: " . mysqli_connect_error();
-            
-              } else {
 
             $result = mysqli_query($mysql, "SELECT cart.*, topic.* FROM cart INNER JOIN topic ON cart.topic_id = topic.id AND cart.user_id = $user_id ORDER BY seller_id DESC");
             // $result = mysqli_query($mysql, "SELECT * FROM `cart` where user_id = $user_id");
@@ -135,7 +130,6 @@
                   echo "<div class='order_selector all_order point'> 전체 주문 </div>";
                 echo "</div>";
                 echo "<br /> <br />";
-            }
         ?>
         </div>
 

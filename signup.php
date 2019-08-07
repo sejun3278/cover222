@@ -36,7 +36,7 @@
 
           <div class='user_host_div user_phone_alert_div_buyer'>
             <b> 휴대전화 </b> <br />
-            <select name='phone_first_num_buyer' id='first_phone_number_select'> <option> 010 </option> <option> 011 </option> <option> 013 </option> </select> -
+            <select name='phone_first_num_buyer'> <option> 010 </option> <option> 011 </option> <option> 013 </option> </select> -
             <input class='user_phone_number_input signup_middle_phone_buyer' type='text' maxLength='4'/> -
             <input class='user_phone_number_input signup_last_phone_buyer' type='text' maxLength='4'/> <br />
           </div>
@@ -77,7 +77,7 @@
 
           <div class='user_host_div user_phone_alert_div_seller'>
             <b> 전화번호 </b> <br />
-            <select name='phone_first_num_seller' id='first_phone_number_select'> <option> 010 </option> <option> 011 </option> <option> 013 </option> </select> -
+            <select name='phone_first_num_seller'> <option> 010 </option> <option> 011 </option> <option> 013 </option> </select> -
             <input class='user_phone_number_input signup_middle_phone_seller' type='text' maxLength='4'/> -
             <input class='user_phone_number_input signup_last_phone_seller' type='text' maxLength='4'/> <br />
           </div>
@@ -120,15 +120,15 @@
             <div>
               <b> 회원 종류 </b> <br />
               <div class='type_checkbox_div'>
-                <div class='point'>
-                  <input type='radio' name='user_type' value='buyer' class='type_checkbox' id='buyer' checked='checked'/>
-                  <label for='buyer'> 구매자 </label>
-                </div>
+                <li>
+                  <input type='radio' name='user_type' value='buyer' class='type_checkbox point' id='buyer' checked='checked'/>
+                  <label for='buyer' class='point'> 구매자 </label>
+                </li>
 
-                <div class='point'>
-                  <input type='radio' name='user_type' value='seller' class='type_checkbox' id='seller'/>
-                  <label for='seller'> 판매자 </label>
-                </div>
+                <li class='point'>
+                  <input type='radio' name='user_type' value='seller' class='type_checkbox point' id='seller'/>
+                  <label for='seller' class='point'> 판매자 </label>
+                </li>
               </div>
             </div>
             
