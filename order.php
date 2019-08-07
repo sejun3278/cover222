@@ -65,15 +65,15 @@
                       echo "<b id='user_info_nickname'> 닉네임 : $nickname </b> <br />";
                         echo "<div id='user_info_margin'>";
                           echo "<b id='change_user_phone'> * 전화 번호 </b> <br />";
-                          echo "<select class='phone_input selec $phone_first' id='user_info_phone_first'> <option> 010 </option> <option> 011 </option> <option> 013 </option> </select> - ";
-                          echo "<input type='text' maxLength='4' class='phone_input phone_text_1' value='$phone_middle'/> - ";
-                          echo "<input type='text' maxLength='4' class='phone_input phone_text_2' value='$phone_last'/>";
+                          echo "<select class='phone_input selec $phone_first' id='user_info_phone_first info_for_0'> <option> 010 </option> <option> 011 </option> <option> 013 </option> </select> - ";
+                          echo "<input type='text' maxLength='4' class='phone_input phone_text_1' id='info_for_1' value='$phone_middle'/> - ";
+                          echo "<input type='text' maxLength='4' class='phone_input phone_text_2' id='info_for_2' value='$phone_last'/>";
                         echo "</div>";
                       
                         echo "<div id='user_info_host_div'> <br />";
                         echo "<b id='user_info_host_title'> * 주소 </b> <br />";
-                        echo "도/시/군 <input class='host_input_order host_test_1' id='aa' type='text' maxLength='20' value='$host_first' /> <br />";
-                        echo "상세 주소 <input class='host_input_order host_test_2' type='text' maxLength='30' value='$host_second' />";
+                        echo "도/시/군 <input class='host_input_order host_test_1' id='info_for_3' type='text' maxLength='20' value='$host_first' /> <br />";
+                        echo "상세 주소 <input class='host_input_order host_test_2' id='info_for_4' type='text' maxLength='30' value='$host_second' />";
                         echo "</div>";
                       
                       echo "<br />";

@@ -1372,9 +1372,15 @@ function call_my_host_info(host_id) {
             type : "get",
 
         }).done( (result) => {
-            console.log(result);
-            // alert('해당 자료를 삭제했습니다.');
-            // return window.location.reload();
+            let str = '';
+            str = str + result;
+            const arr = str.split('　');
+
+            arr.forEach( (el, key) => {
+                if(key < 5) {
+                    $('#info_for_' + key).val(el)
+                }
+            })
         })
 }
 
